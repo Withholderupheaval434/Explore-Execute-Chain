@@ -1,0 +1,42 @@
+# tts experiment config
+model:
+  model_path: "TingheOliver/Explore-Execute-Chain-Qwen"
+  subfolder: "Qwen3-8B-E2C-SFT-RL"   # Qwen3-4B-E2C-SFT-RL for the 4B model; leave empty for local paths
+  device: "cuda"
+
+data:
+  base_dir: "./data"
+  dataset: "aime2024"
+
+tts:
+  budgets: [1, 4, 8, 16, 32]
+  temperature: 0.9
+  max_explore_tokens: 512
+  max_exec_tokens: 16384
+  max_full_tokens: 16384
+  n_clusters: 3
+  tot_max_depth: 5   # max exploration layers for e2c_tot_layered (then execute once)
+  max_refine_rounds: 3   # e2c_react_loop: max exploration revisions after failed execution
+  max_refine_tokens: 1024 # e2c_react_loop: token budget per refinement call
+  save_react_full_trace: false # true: JSON details include full react_trace for e2c_react_loop
+  seed: 42
+
+methods:
+  - greedy_cot
+  - self_consistency
+  - e2c_select_lm_judge
+  - e2c_select_semantic_cluster
+  - e2c_sc
+  - e2c_rp
+  - e2c_react_loop
+  - tree_of_thoughts
+  - forest_of_thought
+
+embedding:
+  backend: "modelscope"
+  modelscope_model: "damo/nlp_gte_sentence-embedding_english-base"
+  huggingface_model: "all-mpnet-base-v2"
+
+output:
+  save_path: "./outputs/aime2024"
+  save_results: true

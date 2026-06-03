@@ -1,0 +1,32 @@
+# E2C Test-Time Scaling Experiment
+torch>=2.0.0
+# Qwen3 requires transformers>=4.51.0
+transformers>=4.51.0
+# Keep datasets<3.0 so embedding backends (sentence-transformers/modelscope deps) can import ALL_ALLOWED_EXTENSIONS
+datasets>=2.14.0,<3.0
+numpy
+matplotlib>=3.7.0
+tqdm
+pyyaml
+scikit-learn>=1.0.0
+
+# e2c_select_semantic_cluster / e2c_tot (embedding)
+# Use modelscope + explicit deps (modelscope[framework] would pull datasets 4.x and conflict)
+modelscope>=1.9.0
+sentence-transformers>=3.0.0
+addict
+oss2
+simplejson
+sortedcontainers
+# modelscope framework / pipeline deps (from modelscope repo requirements/framework.txt + hub)
+attrs
+einops
+Pillow
+python-dateutil>=2.1
+PyYAML>=5.4
+scipy
+urllib3>=1.26
+filelock
+requests>=2.25
+# Optional: flash attention (faster, requires CUDA)
+# flash-attn>=2.0.0

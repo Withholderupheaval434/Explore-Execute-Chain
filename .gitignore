@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.Python
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+.pytest_cache/
+
+# Model checkpoints and weights
+models/pretrained/
+models/released/
+models/checkpoints/
+models/
+tts/Qwen*/
+*.bin
+*.safetensors
+*.pt
+*.pth
+!models/README.md
+
+# Data (downloaded at runtime)
+data/processed/
+data/raw/
+data/evaluation/
+tts/data/
+
+# Training outputs
+e2c/ignore/
+*.log
+*.out
+nohup.out
+swanlog/
+generations/
+outputs/
+!tts/outputs/*.png
+
+# Distributed training
+/tmp/ray/
+
+# Jupyter
+.ipynb_checkpoints
+
+# HuggingFace cache
+.huggingface/
